@@ -11,7 +11,7 @@ from .db import get_session
 from .models import User
 
 # Put this in an env var later. For now keep it simple.
-SECRET_KEY = "CHANGE_ME_TO_RANDOM"
+SECRET_KEY = "6b550951308d79743bf3e6624afb2a8e2ded8ebac3f0b3f2640229bc1c321b3c"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 

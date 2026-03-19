@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: order-api
+  namespace: order
+  labels:
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: order-api
+  endpoints:
+  - port: web          # Try "web" first
+    path: /metrics
+    interval: 15s
+  - port: "80"         # Fallback numeric port
+    path: /metrics
+    interval: 15s

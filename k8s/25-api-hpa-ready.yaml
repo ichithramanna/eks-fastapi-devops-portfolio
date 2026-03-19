@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: order
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: order-api
+  template:
+    metadata:
+      labels:
+        app: order-api
+    spec:
+      containers:
+      - name: api
+        image: order-api:0.1.0
+        ports:
+        - containerPort: 80
+        env:
+        - name: DATABASE_URL
+          value: postgresql+psycopg://app:app_password@db:5432/orders
+        - name: SECRET_KEY
+          value: change_me_later
+        resources:                    # ← NEW: HPA needs this
+          requests:
+            cpu: "50m"               # Pod gets min 50m CPU
+            memory: "128Mi"
+          limits:
+            cpu: "300m"              # Max 300m before throttling
+            memory: "512Mi"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 80
